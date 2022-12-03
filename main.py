@@ -4,8 +4,8 @@ from opendiscourse_page import opendiscourse as Dis
 from opendiscourse_page import open_aufbereitung
 
 
-#list_A =Dis.get_list("politicians") # Zum Beispiel "politicians" oder "factions"
-list_C = Dis.get_speeches("11000010") # Id des Politikers bei Opendiscourse
+# list_A =Dis.get_list("politicians") # Zum Beispiel "politicians" oder "factions"
+list_C = Dis.get_speeches("11000010")  # Id des Politikers bei Opendiscourse
 
 #Sucht Politiker xy auf opendiscourse und ruft weitere Daten ab auf bundestag.de
 #for ele in list_A['data']['politicians']:
@@ -30,7 +30,7 @@ for ele in list_C:
     print("Org: " + str(c) + ": " + str(len(abc)))
     print(abc)
     abc = stop.filtertext(abc)
-    print (abc)
+    print(abc)
     print("Gefiltert: " + str(c) + ": " + str(len(abc)))
 
     for i in abc:
@@ -39,9 +39,6 @@ for ele in list_C:
 
 with open(r'/home/daniel/PycharmProjects/opendiscourse/output_test.txt', 'w') as fp:
     fp.write('\n'.join(output_liste))
-
-
-
 
 
 #text = stop("Das ist ein Text ellbogenkraft","master_stopwords.csv")

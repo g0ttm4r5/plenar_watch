@@ -4,12 +4,10 @@ import regex as re
 import requests as req
 
 
-
-
 def get_data(url):
-    # Defintion des Headers
+    # Definition des Headers
     hdr = {'User-Agent': 'Mozilla/5.0'}
-    # Abruf und R*uckgabe in einer Variable
+    # Abruf und Rückgabe in einer Variable
     response = req.get(url, headers=hdr)
 
     if response.status_code == 200:
@@ -49,9 +47,10 @@ class opendiscourse:
             if ele != '-1' and p_list[ele]['name'].replace("Dr. ", "") == abgeordneter:
                 return p_list[ele]
 
+
 class open_aufbereitung:
 
-    def __init__(self,path):
+    def __init__(self, path):
         self.text_filtered = ""
         self.path_stopwords = path
         if not os.path.isfile(self.path_stopwords):
@@ -66,12 +65,10 @@ class open_aufbereitung:
                 line = line.rstrip()
                 self.stop_list.append(line.split(",")[1])
 
-
-    def filtertext(self,text):
-        #Ausfiltern von Zeilenumbrüchen
+    def filtertext(self, text):
+        # Ausfiltern von Zeilenumbrüchen
         text = text.replace('\n', ' ')
-        #Aufiltern von Satzzeicehn
+        # Aufiltern von Satzzeichen
         text = re.sub(r'[^\w\s]', '', text)
         self.text_filtered = [word for word in text.split(" ") if word.lower() not in self.stop_list]
         return self.text_filtered
-
