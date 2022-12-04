@@ -45,6 +45,16 @@ for wort in words:
         
 print(haeufigkeit)        
 
+# Sortieren der haeufigsten Woertern
+
+lst = list()
+for key, val in list(haeufigkeit.items()):
+    lst.append((val, key))
+    
+lst.sort(reverse = True)
+for key, val in lst[:1]:
+    print(key, val)    
+
 # Summe aller Woerter
 total = len(text.split())
 print("Es sind " + str(total) + " Woerter.")
