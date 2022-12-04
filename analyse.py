@@ -12,9 +12,6 @@ from opendiscourse_page import opendiscourse as Dis
 
 list_C = Dis.get_speeches("11000010") # Id des Politikers bei Opendiscourse
 
-
-# Redeteil extrahieren
-
 # dict aus Liste holen
 
 dtext = list_C[0]
@@ -48,4 +45,11 @@ for wort in words:
 print(haeufigkeit)        
 
 # Summe aller Wörter
-# Durchschnitt 
+total = len(text.split())
+print("Es sind " + str(total) + " Woerter.")
+
+#Länge des Textes
+
+print(len(text))
+
+# Durchschnittliche Länge aller Texte eines Politikers 
