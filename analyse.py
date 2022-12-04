@@ -17,6 +17,7 @@ list_C = Dis.get_speeches("11000010") # Id des Politikers bei Opendiscourse
 dtext = list_C[0]
 
 # Redeteil aus dict holen
+
 text = dtext["speechContent"]
 
 # Satzanfaenge klein schreiben
@@ -27,11 +28,11 @@ text = text.lower()
 
 text = text.translate( text.maketrans("", "", string.punctuation))
 
-# in Wörter splitten
+# in Woerter splitten
 
 words = text.split()
 
-# Häufigkeiten
+# Haeufigkeiten
 
 haeufigkeit = dict()
 
@@ -44,12 +45,12 @@ for wort in words:
         
 print(haeufigkeit)        
 
-# Summe aller Wörter
+# Summe aller Woerter
 total = len(text.split())
 print("Es sind " + str(total) + " Woerter.")
 
-#Länge des Textes
+#Laenge des Textes
 
 print(len(text))
 
-# Durchschnittliche Länge aller Texte eines Politikers 
+# Durchschnittliche Laenge aller Texte eines Politikers 
