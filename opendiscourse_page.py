@@ -2,7 +2,7 @@ import io
 import os.path
 import regex as re
 import requests as req
-
+import spacy
 
 
 
@@ -66,12 +66,23 @@ class open_aufbereitung:
                 line = line.rstrip()
                 self.stop_list.append(line.split(",")[1])
 
+        #Laden der Spacy Datei
+        self.nlp = spacy.load('de_core_news_sm')
 
-    def filtertext(self,text):
+
+    def filtertext(self,text, only_nouns = 1):
         #Ausfiltern von Zeilenumbrüchen
         text = text.replace('\n', ' ')
-        #Aufiltern von Satzzeicehn
-        text = re.sub(r'[^\w\s]', '', text)
+        #Ausfiltern von Satzzeichen
+        text = re.sub(r'[^\w+\s]', '', text)
+        #Herausfiltern von Zahlen
+        text = re.sub(r'[\d+]', '', text).replace("  "," ")
         self.text_filtered = [word for word in text.split(" ") if word.lower() not in self.stop_list]
+
+        #Sofern aktiviert, werden nur Nomen zurueckgegeben
+        if only_nouns == 1:
+           doc = self.nlp(text)
+           self.text_filtered = [word for word in doc if word.pos_ == "NOUN"]
+
         return self.text_filtered
 

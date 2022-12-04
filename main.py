@@ -1,5 +1,3 @@
-import csv
-
 from opendiscourse_page import opendiscourse as Dis
 from opendiscourse_page import open_aufbereitung
 
@@ -36,13 +34,7 @@ for ele in list_C:
     for i in abc:
         output_liste.append(i)
 
+    #break
 
 with open(r'/home/daniel/PycharmProjects/opendiscourse/output_test.txt', 'w') as fp:
-    fp.write('\n'.join(output_liste))
-
-
-
-
-
-#text = stop("Das ist ein Text ellbogenkraft","master_stopwords.csv")
-#print(text)
+    fp.write('\n'.join(map(str, output_liste)))
