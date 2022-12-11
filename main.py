@@ -41,6 +41,5 @@ with open(r'/home/daniel/PycharmProjects/opendiscourse/output_test.txt', 'w') as
     fp.write('\n'.join(map(str, output_liste)))
     fp.write('\n'.join(output_liste))
 
-
 #text = stop("Das ist ein Text ellbogenkraft","master_stopwords.csv")
 #print(text)
