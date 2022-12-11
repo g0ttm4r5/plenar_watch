@@ -209,5 +209,3 @@ label_name1 = Label(start_fenster, text='Gruppe B2-1', font=('calibri', 11, 'ita
 label_name1.grid(row=12, column=5, sticky=tkinter.SE)
 
 start_fenster.mainloop()
-
-
