@@ -5,7 +5,7 @@ import psycopg2 as psy
 conn = None
 cur = None
 
-# Abrufen von Informationen aus der Datenbank
+# Initiale Prüfung, ob die Datenbank erreichbar ist
 try:
     # die Verbindung zur Datenbank aufbauen
     conn = psy.connect(
@@ -17,13 +17,16 @@ try:
 
     cur = conn.cursor() # Erstellung einer Variable zur Übergabe von SQL Code
 
-    # Alle Werte der Spalte "speech_content" aus der Tabelle "speeches" ausgeben
-    cur.execute("SELECT speech_content FROM open_discourse.speeches;")
-    for alles in cur.fetchall():
-        print(alles)
+    # Überprüfen der Verbindung zur Datenbank und Ausgabe der Datenbankinformationen
+    print("Datenbank Informationen:")
+    print(conn.get_dsn_parameters(), "\n")
+    cur.execute("SELECT version();")
 
-except Exception as error: # Wenn ein Fehler auftritt, wird der passende "error" ausgeworfen
-    print("Fehler beim Aufbau der Datenbankverbindung (PostgreSQL): ", error)
+    record = cur.fetchone()
+    print("Folgende Verbindung ist aufgebaut: ", record, "\n")
+
+except Exception as error: # Wenn keine Verbindung aufgebaut werden kann, wird "error" ausgeworfen
+    print("Fehler beim Aufbau der Datenbankverbindung (PostgreSQL)", error)
 finally: # Datenbankverbindung beenden
     if conn:
         cur.close()
