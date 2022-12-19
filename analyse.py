@@ -9,7 +9,7 @@ import string
 # Daten holen
 
 from opendiscourse_page import opendiscourse as Dis
-from opendiscourse_page import open_aufbereitung as Aufb
+from opendiscourse_page import open_aufbereitung 
 
 
 def haeufigstes_wort(anzahl):
@@ -31,11 +31,13 @@ def haeufigstes_wort(anzahl):
     # Sonderzeichen entfernen (?.() usw)
     
     #text = text.translate( text.maketrans("", "", string.punctuation))
-    text = Aufb.filtertext(text,1)
+    stop = open_aufbereitung("master_stopwords.csv")
+    
+    words = stop.filtertext(text)
     
     # in Woerter splitten
-    
-    words = text.split()
+  
+   # words = text.split()
     
     # Haeufigkeiten
     
