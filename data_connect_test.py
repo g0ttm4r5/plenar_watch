@@ -2,20 +2,19 @@ import psycopg2 as psy
 # ein Paket um auf PostgreSQL Datenbanken zugreifen zu können (siehe: https://www.psycopg.org/docs/)
 # vgl: https://pynative.com/python-postgresql-tutorial/
 
-conn = None
+conn = psy.connect(
+    host="localhost",
+    database="next",
+    user="postgres",
+    password="postgres",
+    port="5432")
 cur = None
 
 # Initiale Prüfung, ob die Datenbank erreichbar ist
 try:
-    # die Verbindung zur Datenbank aufbauen
-    conn = psy.connect(
-        host="localhost",
-        database="next",
-        user="postgres",
-        password="postgres",
-        port="5432")
+    conn
 
-    cur = conn.cursor() # Erstellung einer Variable zur Übergabe von SQL Code
+    cur = conn.cursor()  # Erstellung einer Variable zur Übergabe von SQL Code
 
     # Überprüfen der Verbindung zur Datenbank und Ausgabe der Datenbankinformationen
     print("Datenbank Informationen:")
