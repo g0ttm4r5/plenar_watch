@@ -1,9 +1,7 @@
 # Import der Bibliotheken
-from opendiscourse_page import opendiscourse as Dis, open_aufbereitung as Auf
+from opendiscourse_page import opendiscourse as Dis, open_aufbereitung
 from wortwolke import wortwolke_erzeugen
 from tkinter import *
-
-import os
 
 
 
@@ -42,22 +40,21 @@ def suche_polid(name):
 
 
 def hole_reden(id):
-    dict_speeches = Dis.get_speeches(id)
-    #print(dict_speeches)
+
+    Auf = open_aufbereitung("master_stopwords.csv")
+
+    all_speeches = Dis.get_speeches(id)
     liste_reden = list()
-    i = 0
-    for n in dict_speeches:
-        liste_reden.append(dict_speeches[i]['speechContent'])
+
+    i = len(all_speeches)-5
+    for n in range(i, len(all_speeches)):
+        liste_reden.append(all_speeches[i]['speechContent'])
         i += 1
 
-    #print(type(liste_reden))
     trennzeichen = ' '
-    text_reden = trennzeichen.join(liste_reden)
-    print(text_reden)
-    print(type(text_reden))
-    #reden_gefiltert = Auf.filtertext(text_reden)
-    #print(reden_gefiltert)
-    #return daten
+    text_reden = trennzeichen.join(liste_reden) # string
+    reden_gefiltert = Auf.filtertext(text_reden) # liste
+    return reden_gefiltert
 
 
 def lbox_fuellen(liste, lbox):
@@ -83,6 +80,7 @@ def lbox_person_auswaehlen(ebox, lbox):
     # Das Eingabefeld übernimmt den Wert aus der Listbox, der dort markiert ist (wenn etwas in der Listbox
     # durch einen Mausklick markiert ist, dann erhält dieses Element den "ANCHOR"), an die Position 0 (Index)
     ebox.insert(0, lbox.get(ANCHOR))
+    #schaltfl1['state'] = NORMAL
 
 
 def pruefe_lbox_eintraege(ebox, lbox):
@@ -116,32 +114,27 @@ def analyse_ausgeben(name):
     name1_auswahl = lbox_name2.get(lbox_name2.curselection())
     # Die Politiker-ID zum Namen ermitteln und in polid übernehmen
     polid = suche_polid(name1_auswahl)
-    rede_text = hole_reden(polid)
+    reden_gefiltert = hole_reden(polid)
 
+    trenner = ' '
+    substantive_reden = trenner.join(reden_gefiltert)
 
-
-    #rede_text = dict_rede["speechContent"]
-    #print(rede_text)
-
-    #woerter_gefiltert = Oa.filtertext(rede_text, 0)
-    #print(woerter_gefiltert)
-
-    wortwolke_erzeugen('tmp_images/analyseimage.png')
+    wortwolke_erzeugen('tmp_images/analyseimage.png', substantive_reden)
 
     window = Toplevel()
     # das Toplevel-Fenster erhält einen Titel, der vom aufrufenden Event übergeben wird
     window.title(name)
     # Die Größe des Fensters wird festgelegt
-    window.geometry('900x250')
+    window.geometry('1200x1000')
 
     # Ein Label wird auf dem Fenster erzeugt, ein Hinweis inklusive Name aus dem Eingabefeld wird ausgegeben
-    infolabel = Label(window, text=f'Ergebnis für {name1_auswahl} {polid}', font=('calibri', 11))
+    infolabel = Label(window, text=f'Ergebnis für {name1_auswahl} {polid}', font=('calibri', 20))
     # Das Label wird auf dem Fenster platziert
-    infolabel.pack()
+    infolabel.pack(ipadx=50, ipady=50)
 
     wc_image = PhotoImage(file="tmp_images/analyseimage.png")
     wordcloudlabel = Label(master=window, image=wc_image)
-    wordcloudlabel.pack()
+    wordcloudlabel.pack(ipadx=50, ipady=50)
 
     window.mainloop()
 
@@ -215,6 +208,7 @@ und wieder zurückgibt. Über diesen "Umweg" ist es möglich, einem Ereignis ein
 zu übergeben, das ansonsten nicht zu realisieren geht. Das "e" ist das Argument, das übergeben wird. 
 Der Doppelpunkt grenzt die Argumentliste vom Rückgabewert oder Ausdruck ab. Der Teil "analyse_ausgeben(<Text>)"
  ist der Rückgabewert.'''
+#schaltfl1 = Button(start_fenster, text='Analysieren', background='#D8D8D8', font=('calibri', 11), state=DISABLED)
 schaltfl1 = Button(start_fenster, text='Analysieren', background='#D8D8D8', font=('calibri', 11))
 schaltfl1.grid(row=5, column=3, sticky=SW)
 
