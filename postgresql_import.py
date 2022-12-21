@@ -32,8 +32,9 @@ class sql_abfragen:
 
             # Alle Werte der Spalte "speech_content" aus der Tabelle "speeches" ausgeben
             cur.execute("SELECT speech_content FROM open_discourse.speeches;")
-            for alles in cur.fetchall():
-                print(alles)
+            return cur.fetchall()
+            #for alles in cur.fetchall():
+            #    print(alles)
 
         except Exception as error: # Wenn ein Fehler auftritt, wird der passende "error" ausgeworfen
             print("Fehler beim Aufbau der Datenbankverbindung (PostgreSQL): ", error)
@@ -51,9 +52,9 @@ class sql_abfragen:
 
             # Alle Werte der ausgewählten Spalten aus der Tabelle "politicians" ausgeben
             cur.execute("select " + spalten + " from open_discourse.politicians")
-            #print(cur.fetchall())
-            for politiker in cur.fetchall():
-                print(politiker)
+            return cur.fetchall()
+            #for politiker in cur.fetchall():
+            #    print(politiker)
 
         except Exception as error: # Wenn ein Fehler auftritt, wird der passende "error" ausgeworfen
             print("Fehler beim Aufbau der Datenbankverbindung (PostgreSQL): ", error)
@@ -71,9 +72,9 @@ class sql_abfragen:
 
             # Alle Werte der Spalte "speech_content" aus der Tabelle "speeches" ausgeben, die zur eingegebenen ID gehören
             cur.execute("SELECT speech_content FROM open_discourse.speeches where politician_id = " + pol_id + ";")
-            #print(cur.fetchall())
-            for reden in cur.fetchall():
-                print(reden)
+            return cur.fetchall()
+            #for reden in cur.fetchall():
+            #    print(reden)
 
         except Exception as error: # Wenn ein Fehler auftritt, wird der passende "error" ausgeworfen
             print("Fehler beim Aufbau der Datenbankverbindung (PostgreSQL): ", error)
