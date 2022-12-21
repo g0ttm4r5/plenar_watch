@@ -1,14 +1,21 @@
-# Das Modul tkinter importieren
-import tkinter
+# Import der Bibliotheken
+from opendiscourse_page import opendiscourse as Dis, open_aufbereitung as Auf
+from wortwolke import wortwolke_erzeugen
 from tkinter import *
 
-from opendiscourse_page import opendiscourse as Dis
+import os
 
+
+
+
+# ------------------------- Funktionen ----------------------------------
 # Die Funktionen lbox_fuellen, lbox_person_auswaehlen und pruefe_lbox_eintraege sind angelehnt an:
 # Basic Search and Autofill - Python Tkinter GUI Tutorial #162 (https://www.youtube.com/watch?v=0CXQ3bbBLVk)
 
+
 def erstelle_liste():
-    """Die Funktion erstelle_liste extrahiert aus der ..."""
+    """Diese Funktion extrahiert aus der Politiker:innenliste die Vornamen und Nachnamen der Politiker:innen
+    und erzeugt daraus eine Liste im Format 'Vorname Nachname'"""
 
     liste_p = Dis.get_list("politicians")
 
@@ -19,8 +26,42 @@ def erstelle_liste():
         i += 1
     return daten
 
+
+def suche_polid(name):
+    "Diese Funktion holt sich die ID eines/einer Politiker:in aus der Politikerliste"
+    liste_p = Dis.get_list("politicians")
+    i = 0
+    for n in liste_p['data']['politicians']:
+        t = liste_p['data']['politicians'][i]['firstName'] + ' ' + liste_p['data']['politicians'][i]['lastName']
+        if name == t:
+            polid = liste_p['data']['politicians'][i]['id']
+            break
+        i += 1
+
+    return polid
+
+
+def hole_reden(id):
+    dict_speeches = Dis.get_speeches(id)
+    #print(dict_speeches)
+    liste_reden = list()
+    i = 0
+    for n in dict_speeches:
+        liste_reden.append(dict_speeches[i]['speechContent'])
+        i += 1
+
+    #print(type(liste_reden))
+    trennzeichen = ' '
+    text_reden = trennzeichen.join(liste_reden)
+    print(text_reden)
+    print(type(text_reden))
+    #reden_gefiltert = Auf.filtertext(text_reden)
+    #print(reden_gefiltert)
+    #return daten
+
+
 def lbox_fuellen(liste, lbox):
-    """Die Funktion lbox_fuellen ist dafür zuständig, die Listbox für die Politer:innen mit den entsprechenden
+    """Diese Funktion ist dafür zuständig, die Listbox für die Politer:innen mit den entsprechenden
     Namen zu füllen. Sie übernimmt als Argumente die Politiker:innenliste und den Namen der Listbox. Diese Funktion
     befüllt, da sie als Argument auch den Listboxnamen übernimmt alle Listboxen auf der grafischen Oberfläche."""
 
@@ -69,22 +110,40 @@ def pruefe_lbox_eintraege(ebox, lbox):
 
 
 def analyse_ausgeben(name):
-    """Die Funktion analyse_ausgeben ..."""
+    #"""Die Funktion analyse_ausgeben ..."""
+
+    # Den ausgewählten Namensstring aus dem Listenfeld in name1_auswahl übernehmen
+    name1_auswahl = lbox_name2.get(lbox_name2.curselection())
+    # Die Politiker-ID zum Namen ermitteln und in polid übernehmen
+    polid = suche_polid(name1_auswahl)
+    rede_text = hole_reden(polid)
+
+
+
+    #rede_text = dict_rede["speechContent"]
+    #print(rede_text)
+
+    #woerter_gefiltert = Oa.filtertext(rede_text, 0)
+    #print(woerter_gefiltert)
+
+    wortwolke_erzeugen('tmp_images/analyseimage.png')
+
     window = Toplevel()
     # das Toplevel-Fenster erhält einen Titel, der vom aufrufenden Event übergeben wird
     window.title(name)
     # Die Größe des Fensters wird festgelegt
     window.geometry('900x250')
-    #'name_auswahl' erhält den Namensstring aus dem Eingabefeld
-
-    #name1_auswahl = eingabe_name1.get()
-    name1_auswahl = lbox_name2.get(lbox_name2.curselection())
 
     # Ein Label wird auf dem Fenster erzeugt, ein Hinweis inklusive Name aus dem Eingabefeld wird ausgegeben
-    newlabel = Label(window, text=f'Ergebnis für {name1_auswahl}', font=('calibri', 11))
+    infolabel = Label(window, text=f'Ergebnis für {name1_auswahl} {polid}', font=('calibri', 11))
     # Das Label wird auf dem Fenster platziert
-    newlabel.pack()
+    infolabel.pack()
 
+    wc_image = PhotoImage(file="tmp_images/analyseimage.png")
+    wordcloudlabel = Label(master=window, image=wc_image)
+    wordcloudlabel.pack()
+
+    window.mainloop()
 
 def vergleich_ausgeben(name):
     """Die Funktion vergleich_ausgeben ..."""
@@ -93,6 +152,8 @@ def vergleich_ausgeben(name):
     newlabel = Label(window, text=name, font=('calibri', 11))
     newlabel.pack()
 
+
+# ------------------------- Fenster aufbauen ----------------------------------
 start_fenster = Tk()
 
 pol_liste = erstelle_liste()
@@ -124,25 +185,25 @@ start_fenster.grid_columnconfigure(5, weight=1)
 
 # Label-Widget für die Gesamtüberschrift und die allgemeine Beschreibung. Jeweils das Label definieren und im Grid platzieren.
 label_titel = Label(start_fenster, text='PlenarWatch', font=('calibri', 14, 'bold'))
-label_titel.grid(row=0, column=1, sticky=tkinter.SW)
+label_titel.grid(row=0, column=1, sticky=SW)
 label_hinweis0 = Label(start_fenster, text='Mit Hilfe von PlenarWatch können .... Beschreibung ', font=('calibri', 11, 'italic'))
-label_hinweis0.grid(row=1, column=1, columnspan=4, sticky=tkinter.NW, pady=10)
+label_hinweis0.grid(row=1, column=1, columnspan=4, sticky=NW, pady=10)
 
 # Label-Widget für die Aufgabenüberschrift "Politiker:innen-Analyse" und die Ausfüllhinweise
 label_aufg1 = Label(start_fenster, text='Eine:n Politiker:in analysieren', font=('calibri', 14, 'bold'))
-label_aufg1.grid(row=2, column=1, columnspan=4, sticky=tkinter.SW)
+label_aufg1.grid(row=2, column=1, columnspan=4, sticky=SW)
 label_hinweis1 = Label(start_fenster, text='Bitte einen Namen eingeben (Vorname Nachname) oder einen Namen auswählen', font=('calibri', 11, 'italic'))
-label_hinweis1.grid(row=3, column=1, columnspan=4, sticky=tkinter.SW)
+label_hinweis1.grid(row=3, column=1, columnspan=4, sticky=SW)
 
 # Label- und Eingabe-Widgets, um Daten für die Analyse einzugeben bzw. auszuwählen
 label_name1 = Label(start_fenster, text='Namen eingeben', font=('calibri', 11))
-label_name1.grid(row=4, column=1, sticky=tkinter.SW)
+label_name1.grid(row=4, column=1, sticky=SW)
 eingabe_name1 = Entry(start_fenster, bg='white', font=('calibri', 11))
-eingabe_name1.grid(row=4, column=2, sticky=tkinter.SW)
+eingabe_name1.grid(row=4, column=2, sticky=SW)
 label_name2 = Label(start_fenster, text='Namen suchen', font=('calibri', 11))
-label_name2.grid(row=5, column=1, sticky=tkinter.W)
+label_name2.grid(row=5, column=1, sticky=W)
 lbox_name2 = Listbox(start_fenster, height=3, bg='white', font=('calibri', 11))
-lbox_name2.grid(row=5, column=2, sticky=tkinter.SW)
+lbox_name2.grid(row=5, column=2, sticky=SW)
 
 lbox_fuellen(pol_liste, lbox_name2)
 lbox_name2.bind('<<ListboxSelect>>', lambda e: lbox_person_auswaehlen(eingabe_name1, lbox_name2))
@@ -155,46 +216,50 @@ zu übergeben, das ansonsten nicht zu realisieren geht. Das "e" ist das Argument
 Der Doppelpunkt grenzt die Argumentliste vom Rückgabewert oder Ausdruck ab. Der Teil "analyse_ausgeben(<Text>)"
  ist der Rückgabewert.'''
 schaltfl1 = Button(start_fenster, text='Analysieren', background='#D8D8D8', font=('calibri', 11))
-schaltfl1.grid(row=5, column=3, sticky=tkinter.SW)
+schaltfl1.grid(row=5, column=3, sticky=SW)
+
+#Der Methode callback wird über einen Parameter mitgeteilt, dass sie auf ein Ereignis (=Event) reagieren soll.
+# Tritt das betreffende Ereignis ein, so wird die Ereignisbehandlungs-Routine callback (=Event-Handler) ausgeführt:
 schaltfl1.bind('<Button>', lambda e: analyse_ausgeben('Politiker:in analysieren'))
+#schaltfl1.bind('<Button>', analyse_ausgeben())
 
 # Label-Widget für die Aufgabenüberschrift "Politiker:innen-Vergleich" und die Ausfüllhinweise
 label_aufg2 = Label(start_fenster, text='Zwei Politiker:innen vergleichen', font=('calibri', 14, 'bold'))
-label_aufg2.grid(row=7, column=1, columnspan=4, sticky=tkinter.SW)
+label_aufg2.grid(row=7, column=1, columnspan=4, sticky=SW)
 label_hinweis2 = Label(start_fenster, text='Bitte für Politiker:in A und B jeweils einen Namen eingeben (Vorname Nachname) oder einen Namen auswählen', font=('calibri', 11, 'italic'))
-label_hinweis2.grid(row=8, column=1, columnspan=4, sticky=tkinter.SW)
+label_hinweis2.grid(row=8, column=1, columnspan=4, sticky=SW)
 
 # Label-Widgets für die Überschriften zu "Politiker:in A" und " Politiker:in B"
 label_hinweis3 = Label(start_fenster, text='Politiker:in A', font=('calibri', 11, 'bold'))
-label_hinweis3.grid(row=9, column=2, sticky=tkinter.SW)
+label_hinweis3.grid(row=9, column=2, sticky=SW)
 label_hinweis4 = Label(start_fenster, text='Politiker:in B', font=('calibri', 11, 'bold'))
-label_hinweis4.grid(row=9, column=4, sticky=tkinter.SW)
+label_hinweis4.grid(row=9, column=4, sticky=SW)
 
 # Label- und Eingabe-Widgets, um Daten für den Politiker:in-Vergleich einzugeben
 label_name3 = Label(start_fenster, text='Namen eingeben', font=('calibri', 11))
-label_name3.grid(row=10, column=1, sticky=tkinter.SW)
+label_name3.grid(row=10, column=1, sticky=SW)
 eingabe_name3 = Entry(start_fenster, bg='white', font=('calibri', 11))
-eingabe_name3.grid(row=10, column=2, sticky=tkinter.SW)
+eingabe_name3.grid(row=10, column=2, sticky=SW)
 
 label_name4 = Label(start_fenster, text='Namen eingeben', font=('calibri', 11))
-label_name4.grid(row=10, column=3, sticky=tkinter.SW)
+label_name4.grid(row=10, column=3, sticky=SW)
 eingabe_name4 = Entry(start_fenster, bg='white', font=('calibri', 11))
-eingabe_name4.grid(row=10, column=4, sticky=tkinter.SW)
+eingabe_name4.grid(row=10, column=4, sticky=SW)
 
 # Label- und Listbox-Widgets, um Daten für den Politiker:in-Vergleich anzuzeigen und ggf. auszuwählen
 label_name5 = Label(start_fenster, text='Namen suchen', font=('calibri', 11))
-label_name5.grid(row=11, column=1, sticky=tkinter.W)
+label_name5.grid(row=11, column=1, sticky=W)
 lbox_name5 = Listbox(start_fenster, height=3, bg='white', font=('calibri', 11))
-lbox_name5.grid(row=11, column=2, sticky=tkinter.SW)
+lbox_name5.grid(row=11, column=2, sticky=SW)
 
 lbox_fuellen(pol_liste, lbox_name5)
 lbox_name5.bind('<<ListboxSelect>>', lambda e: lbox_person_auswaehlen(eingabe_name3, lbox_name5))
 eingabe_name3.bind('<KeyRelease>', lambda e: pruefe_lbox_eintraege(eingabe_name3, lbox_name5))
 
 label_name6 = Label(start_fenster, text='Namen suchen', font=('calibri', 11))
-label_name6.grid(row=11, column=3, sticky=tkinter.W)
+label_name6.grid(row=11, column=3, sticky=W)
 lbox_name6 = Listbox(start_fenster, height=3, bg='white', font=('calibri', 11))
-lbox_name6.grid(row=11, column=4, sticky=tkinter.SW)
+lbox_name6.grid(row=11, column=4, sticky=SW)
 
 lbox_fuellen(pol_liste, lbox_name6)
 lbox_name6.bind('<<ListboxSelect>>', lambda e: lbox_person_auswaehlen(eingabe_name4, lbox_name6))
@@ -202,10 +267,11 @@ eingabe_name4.bind('<KeyRelease>', lambda e: pruefe_lbox_eintraege(eingabe_name4
 
 #Schaltfläche, die die Analyse auslöst und die Funktion "vergleich_ausgeben" aufruft (siehe oben)
 schaltfl2 = Button(start_fenster, text='Vergleichen', background='#D8D8D8', font=('calibri', 11))
-schaltfl2.grid(row=11, column=5, sticky=tkinter.SW)
+schaltfl2.grid(row=11, column=5, sticky=SW)
 schaltfl2.bind('<Button>', lambda e: vergleich_ausgeben('Politiker:in vergleichen'))
 
+
 label_name1 = Label(start_fenster, text='Gruppe B2-1', font=('calibri', 11, 'italic'), padx=10)
-label_name1.grid(row=12, column=5, sticky=tkinter.SE)
+label_name1.grid(row=12, column=5, sticky=SE)
 
 start_fenster.mainloop()
