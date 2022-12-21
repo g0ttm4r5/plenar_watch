@@ -2,6 +2,14 @@ import psycopg2 as psy
 # ein Paket um auf PostgreSQL Datenbanken zugreifen zu können (siehe: https://www.psycopg.org/docs/)
 # vgl: https://pynative.com/python-postgresql-tutorial/
 
+# vor dem Ausführen des Codes muss die Datenbank erstellt werden.
+# Dazu müssen die Schritte der Dokumentaion Punkt 2.2 "Run the database locally" ausgeführt werden.
+# vgl. https://open-discourse.github.io/open-discourse-documentation/1.1.0/run-the-database-locally.html
+# Folgendes im Terminal/CMD ausführen:
+# einmalig:     docker pull ghcr.io/open-discourse/open-discourse/database:latest
+# zum Starten:  docker run --env POSTGRES_USER=postgres --env POSTGRES_DB=postgres --env POSTGRES_PASSWORD=postgres  -p 5432:5432 -d ghcr.io/open-discourse/open-discourse/database
+
+
 # die Verbindung zur Datenbank aufbauen
 conn = psy.connect(
     host="localhost",
