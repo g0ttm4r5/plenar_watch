@@ -105,7 +105,7 @@ def durchschnitt_laenge(PolitikerID):
     
       durchschnitt = laenge_aller_reden / zaehler
     
-      ergebnis = "\n\nDie analysierten Reden haben eine durchschnittliche Länge von " + str(durchschnitt.round(2)) + " Wörtern."
+      ergebnis = "\n\nDie analysierten Reden haben eine durchschnittliche Länge von " + str(durchschnitt) + " Wörtern."
       return ergebnis
 
 ########Debug#######
