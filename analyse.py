@@ -55,7 +55,7 @@ def haeufigkeit_woerter(PolitikerID, anzahl):
           
     lst.sort(reverse = True)
      
-    ergebnis ="Die"  + str(anzahl) + "häufigsten Wörter in den analysierten Reden sind:"   
+    ergebnis ="Die "  + str(anzahl) + " häufigsten Wörter in den analysierten Reden sind:"   
      
     for key, val in lst[:anzahl + 1]:
           #print(key, val)    
@@ -82,7 +82,7 @@ def summe_aller_woerter(PolitikerID):
          
       total = len(woerter)
       
-      ergebnis = "\n\nDie analysierten Reden haben eine Gesamtlänge von " + str(total) + " Woerter."
+      ergebnis =  "Die 5 analysierten Reden haben eine Gesamtlänge \nvon " + str(total) + " Wörter."
       
       return ergebnis
 
@@ -103,13 +103,16 @@ def durchschnitt_laenge(PolitikerID):
           laenge_aller_reden += len(rede)
           zaehler += 1
     
+      if zaehler == 0:
+          zaehler = 1
+      
       durchschnitt = laenge_aller_reden / zaehler
     
-      ergebnis = "\n\nDie analysierten Reden haben eine durchschnittliche Länge von " + str(durchschnitt) + " Wörtern."
+      ergebnis =  "Diese Reden haben eine durchschnittliche\nLänge von " + str(round(durchschnitt)) + " Wörtern."
       return ergebnis
 
 ########Debug#######
-#print(summe_aller_woerter("11000010"))
-#print(durchschnitt_laenge("11000010"))
+print(summe_aller_woerter("11000010"))
+print((durchschnitt_laenge("11000010")))
 print(haeufigkeit_woerter("11000010",5))
  
