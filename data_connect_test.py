@@ -1,3 +1,8 @@
+"""
+Dateiname: postgresql_import.py
+Autor: Marcel Weller
+"""
+
 import psycopg2 as psy
 # ein Paket um auf PostgreSQL Datenbanken zugreifen zu können (siehe: https://www.psycopg.org/docs/)
 # vgl: https://pynative.com/python-postgresql-tutorial/

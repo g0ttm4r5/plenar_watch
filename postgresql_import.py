@@ -1,13 +1,19 @@
+"""
+Dateiname: postgresql_import.py
+Autor: Marcel Weller
+"""
+
+
 import psycopg2 as psy
 # ein Paket um auf PostgreSQL Datenbanken zugreifen zu können (siehe: https://www.psycopg.org/docs/)
 # vgl: https://pynative.com/python-postgresql-tutorial/
 
-# vor dem Ausführen des Codes muss die Datenbank erstellt werden.
-# Dazu müssen die Schritte der Dokumentaion Punkt 2.2 "Run the database locally" ausgeführt werden.
-# vgl. https://open-discourse.github.io/open-discourse-documentation/1.1.0/run-the-database-locally.html
-# Folgendes im Terminal/CMD ausführen:
-# einmalig:     docker pull ghcr.io/open-discourse/open-discourse/database:latest
-# zum Starten:  docker run --env POSTGRES_USER=postgres --env POSTGRES_DB=postgres --env POSTGRES_PASSWORD=postgres  -p 5432:5432 -d ghcr.io/open-discourse/open-discourse/database
+'''vor dem Ausführen des Codes muss die Datenbank erstellt werden.
+Dazu müssen die Schritte der Dokumentaion Punkt 2.2 "Run the database locally" ausgeführt werden.
+vgl. https://open-discourse.github.io/open-discourse-documentation/1.1.0/run-the-database-locally.html
+Folgendes im Terminal/CMD ausführen:
+einmalig:     docker pull ghcr.io/open-discourse/open-discourse/database:latest
+zum Starten:  docker run --env POSTGRES_USER=postgres --env POSTGRES_DB=postgres --env POSTGRES_PASSWORD=postgres  -p 5432:5432 -d ghcr.io/open-discourse/open-discourse/database'''
 
 
 # die Verbindung zur Datenbank aufbauen
@@ -21,10 +27,12 @@ cur = None
 
 # Abrufen von Informationen aus der Datenbank
 class sql_abfragen:
+    """Mit dieser Klasse können verschiedene Abfragen in der PostgreSQL Datenbank getätigt werden."""
     def __init__(self):
         self
 
     def alle_reden(self):
+        """Mit dieser Funktion werden alle Reden, aller Politiker aus der Datenbank ausgegeben."""
         try:
             conn
 
@@ -45,6 +53,8 @@ class sql_abfragen:
                 print("Datenbankverbindung wurde beendet.")"""
 
     def alle_politiker(spalten):
+        """Mit dieser Funktion können vom User ausgewählte Spalten aus der Tabelle 'politicians' der Datenbank
+        abgerufen werden."""
         try:
             conn
 
@@ -65,6 +75,8 @@ class sql_abfragen:
                 print("Datenbankverbindung wurde beendet.")"""
 
     def reden_eines_pol(pol_id):
+        """Mit dieser Funktion werden alle Reden einer vom User ausgewählten Politiker-ID (eines Politikers)
+        ausgegeben."""
         try:
             conn
 
