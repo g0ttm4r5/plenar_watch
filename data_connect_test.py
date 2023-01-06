@@ -4,6 +4,7 @@ Autor: Marcel Weller
 """
 
 import psycopg2 as psy
+
 # ein Paket um auf PostgreSQL Datenbanken zugreifen zu können (siehe: https://www.psycopg.org/docs/)
 # vgl: https://pynative.com/python-postgresql-tutorial/
 
@@ -29,9 +30,9 @@ try:
     record = cur.fetchone()
     print("Folgende Verbindung ist aufgebaut: ", record, "\n")
 
-except Exception as error: # Wenn keine Verbindung aufgebaut werden kann, wird "error" ausgeworfen
+except Exception as error:  # Wenn keine Verbindung aufgebaut werden kann, wird "error" ausgeworfen
     print("Fehler beim Aufbau der Datenbankverbindung (PostgreSQL)", error)
-finally: # Datenbankverbindung beenden
+finally:  # Datenbankverbindung beenden
     if conn:
         cur.close()
         conn.close()
