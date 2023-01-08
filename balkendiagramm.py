@@ -1,15 +1,24 @@
+"""
+Dateiname: balkendiagramm.py
+Authorin: Angelika Martin
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 def balkendiagramm_zeichnen(datei_pfad, rede_dict):
+        """Die Funktion erstellt ein Balkendiagramm aus den zehn häufigsten Wörtern einer Rede einer Politikerin
+        oder eines Politikers und speichert es als Datei ab."""
 
         # original default Parameter werden wiederhergestellt:
         plt.rcdefaults()
         fig, ax = plt.subplots()
 
+        # anzahl und woerter übernehmen die Werte aus dem übergebenen dictionary
         woerter = rede_dict.keys()
         anzahl = rede_dict.values()
 
+        # Das Koordinatensystem wird erstellt
         y_pos = np.arange(len(rede_dict))
         ax.barh(y_pos, anzahl, align='center', color='blue', ecolor='black')
 
@@ -29,6 +38,9 @@ def balkendiagramm_zeichnen(datei_pfad, rede_dict):
         ax.set_yticklabels(woerter)
         ax.invert_yaxis()
 
+        # Die Beschriftung für die x-Achse und das Diagramm werden erzeugt
         ax.set_xlabel('Anzahl')
         ax.set_title('Die zehn am häufigsten verwendeten Wörter')
+
+        # Das Diagramm wird gespeichert
         plt.savefig(datei_pfad)

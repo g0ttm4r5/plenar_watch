@@ -55,11 +55,11 @@ def haeufigkeit_woerter(PolitikerID, anzahl):
           
     lst.sort(reverse = True)
      
-    ergebnis ="Die "  + str(anzahl) + " häufigsten Wörter in den analysierten Reden sind:"   
+    ergebnis ="Die "  + str(anzahl) + " häufigsten Wörter in den analysierten Reden sind:\n"
      
-    for key, val in lst[:anzahl + 1]:
+    for key, val in lst[:anzahl]:
           #print(key, val)    
-         ergebnis += str(key) + " mal " + str(val) +", " 
+         ergebnis += str(key) + " mal " + str(val) + '\n'
     return ergebnis
 
 # Summe aller Woerter
@@ -112,7 +112,7 @@ def durchschnitt_laenge(PolitikerID):
       return ergebnis
 
 ########Debug#######
-print(summe_aller_woerter("11000010"))
-print((durchschnitt_laenge("11000010")))
-print(haeufigkeit_woerter("11000010",5))
+#print(summe_aller_woerter("11000010"))
+#print((durchschnitt_laenge("11000010")))
+#print(haeufigkeit_woerter("11000010",5))
  
