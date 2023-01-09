@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Dec  3 19:14:34 2022
+Dateiname: analyse
+Authorin: Meriam Malik
 
-@author: Meriam Malik
 """
+
 
 
 # Daten holen
@@ -11,7 +12,7 @@ Created on Sat Dec  3 19:14:34 2022
 from opendiscourse_page import opendiscourse as Dis
 from opendiscourse_page import open_aufbereitung 
 
-
+#Rede wird zerlegt
 def zerlege_Rede(ID):
 
     #alle Reden zu Politiker mit ID in eine Liste schreiben
@@ -36,7 +37,7 @@ def zerlege_Rede(ID):
  
     return onlytext
 
-
+    # Haeufigsten Wort herausfinden
 def haeufigkeit_woerter(PolitikerID, anzahl):
     reden = zerlege_Rede(PolitikerID) 
     haeufigkeit = dict()
