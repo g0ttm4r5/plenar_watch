@@ -1,3 +1,9 @@
+"""
+Dateiname: opendiscourse_page.py
+Author: Daniel Sellerberg
+"""
+
+
 import io
 import os.path
 import regex as re
