@@ -57,7 +57,7 @@ class opendiscourse:
         if len(liste['data']['searchSpeeches']) == 200:
             print("Reden unvollständig, da mehr als 200 Einträge")
         elif len(liste['data']['searchSpeeches']) == 0:
-            print("keine Reden hinerlegt!")
+            print("keine Reden hinterlegt!")
 
         return liste['data']['searchSpeeches']
 
@@ -97,7 +97,7 @@ class open_aufbereitung:
         #Ausfiltern von Satzzeichen
         text = re.sub(r'[^\w+\s]', '', text)
         #Herausfiltern von Zahlen
-        text = re.sub(r'[\d+]', '', text).replace("  "," ")
+        text = re.sub(r'[\d+]', '', text)
 
         #Sofern aktiviert, werden nur Nomen zurueckgegeben
         if only_nouns == 1:
